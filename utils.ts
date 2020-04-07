@@ -1,15 +1,15 @@
 import * as _ from 'lodash';
 
 export class Color {
-  public r: number;
-  public g: number;
-  public b: number;
 
   constructor(r, g, b) {
     this.r =  r;
     this.g = g;
     this.b = b;
   }
+  public r: number;
+  public g: number;
+  public b: number;
 
   public static fromHex(hex: string): Color {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -20,6 +20,18 @@ export class Color {
     const g = parseInt(result[2], 16);
     const b = parseInt(result[3], 16);
     return new Color(r, g, b);
+  }
+
+  public static combine(...colors): Color {
+
+    if (_.size(colors) === 0) {
+      return null;
+    }
+    if (_.size(colors) === 0) {
+      return colors[0];
+    }
+    const [colorOne, ...rest] = colors;
+    return colorOne.combine(...rest);
   }
 
   public toHex(): string {
