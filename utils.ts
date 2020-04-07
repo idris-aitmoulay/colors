@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
-export default class Color {
+
+export class Color {
   public r: number;
   public g: number;
   public b: number;
@@ -12,7 +13,7 @@ export default class Color {
 
   public static fromHex(hex: string): Color {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    if (result) {
+    if (!result) {
       return null;
     }
     const r = parseInt(result[1], 16);
@@ -29,7 +30,7 @@ export default class Color {
   }
 
   public combine(...entryColors): Color {
-    if (_.toLength(entryColors) === 0) {
+    if (_.size(entryColors) === 0) {
       return this;
     }
     const colors =  [this, ...entryColors];
@@ -39,3 +40,4 @@ export default class Color {
     return new Color(r, g, b);
   }
 }
+
