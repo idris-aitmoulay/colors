@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 export default class Color {
   public r: number;
   public g: number;
@@ -25,5 +26,16 @@ export default class Color {
       const hex = x.toString(16);
       return hex.length === 1 ? '0' + hex : hex
     }).join('');
+  }
+
+  public combine(...entryColors): Color {
+    if (_.toLength(entryColors) === 0) {
+      return this;
+    }
+    const colors =  [this, ...entryColors];
+    const r = Math.floor(colors.map(color => color.r).reduce((ac, cu) => (ac + cu), 0) / colors.length);
+    const g = Math.floor(colors.map(color => color.g).reduce((ac, cu) => (ac + cu), 0) / colors.length);
+    const b = Math.floor(colors.map(color => color.b).reduce((ac, cu) => (ac + cu), 0) / colors.length);
+    return new Color(r, g, b);
   }
 }
